@@ -32,15 +32,20 @@ resources = {
 }
 
 def user_choice():
-    choice = input('What kind of coffee would you like?\nespresso, latte, or cappuccino?').lower()
-    cost = str(menu[choice]['cost'])
+    choice = input('What kind of coffee would you like?\nespresso, latte, or cappuccino?\n').lower()
     if choice == 'espresso':
-        print(f'That will be {cost}')
+        format_float = "{:.2f}".format(menu[choice]['cost'])  
+        print(f'That will be ${format_float}')
         return 'espresso'
     if choice == 'latte':
+        format_float = "{:.2f}".format(menu[choice]['cost'])  
+        print(f'That will be ${format_float}')
         return 'latte'
     if choice == 'cappuccino':
+        format_float = "{:.2f}".format(menu[choice]['cost'])  
+        print(f'That will be ${format_float}')
         return 'cappuccino'
+
 
 
 def resource_report():
@@ -52,15 +57,16 @@ def resource_report():
 
 
 def check_coins(user_choice):
-    item_cost = menu[user_choice]['cost']
+    item_cost_int = menu[user_choice]['cost']
+    item_cost = "{:.2f}".format(menu[user_choice]['cost']) 
     user_quarters = int(input('How many quarters?\n')) * .25
     user_dimes = int(input('How many dimes?\n')) * .10
     user_nickles = int(input('How many nickles?\n')) * .05
     total_paid = round(user_quarters + user_dimes + user_nickles, 2)
-    change = round(item_cost - total_paid, 2) * -1
+    change = round(item_cost_int - total_paid, 2) * -1
 
-    if total_paid > item_cost:
-        yes_no = input(f'Are you sure you want to purchase this item for: {item_cost}?\n').lower()
+    if total_paid > item_cost_int:
+        yes_no = input(f'Are you sure you want to purchase this item for: ${item_cost}?\n').lower()
         if yes_no == 'yes':
             print(f'Please collect your change of {change}. Thanks you for your purchase!')
             return True
@@ -68,7 +74,7 @@ def check_coins(user_choice):
             print(f'Please take your refund of: {total_paid}')
             return False
     
-    if total_paid < item_cost:
+    if total_paid < item_cost_int:
         print(f'Please insert the minimum amount of coins')
         check_coins(user_choice)
 
