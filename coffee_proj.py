@@ -45,7 +45,9 @@ def user_choice():
         format_float = "{:.2f}".format(menu[choice]['cost'])  
         print(f'That will be ${format_float}')
         return 'cappuccino'
-
+    else:
+        print('Not a valid choice, please make another selction\n')
+        return 'invalid'
 
 
 def resource_report():
@@ -62,24 +64,25 @@ def check_coins(user_choice):
     user_quarters = int(input('How many quarters?\n')) * .25
     user_dimes = int(input('How many dimes?\n')) * .10
     user_nickles = int(input('How many nickles?\n')) * .05
-    total_paid = round(user_quarters + user_dimes + user_nickles, 2)
-    change = round(item_cost_int - total_paid, 2) * -1
+    total_paid_int = round(user_quarters + user_dimes + user_nickles, 2)
+    total_paid = "{:.2f}".format(user_quarters + user_dimes + user_nickles, 2) 
+    change_int = round(item_cost_int - total_paid_int, 2) * -1
+    change = "{:.2f}".format(round(item_cost_int - total_paid_int, 2) * -1)
 
-    if total_paid > item_cost_int:
-        yes_no = input(f'Are you sure you want to purchase this item for: ${item_cost}?\n').lower()
-        if yes_no == 'yes':
-            print(f'Please collect your change of {change}. Thanks you for your purchase!')
+    if total_paid_int > item_cost_int:
+        print(f'Total entered: ${total_paid}')
+        yes_no = input(f'Are you sure you want to purchase this item for: ${item_cost}? Y/N\n').lower()
+        if yes_no == 'y':
+            print(f'Please collect your change of ${change}. Thanks you for your purchase!')
             return True
-        if yes_no == 'no':
+        if yes_no == 'n':
             print(f'Please take your refund of: {total_paid}')
             return False
     
-    if total_paid < item_cost_int:
+    if total_paid_int < item_cost_int:
         print(f'Please insert the minimum amount of coins')
         check_coins(user_choice)
-
-        
-
+    
 
 def available_resources(user_choice):
     available_water = resources['water']
@@ -97,7 +100,6 @@ def available_resources(user_choice):
         resources['milk'] = available_milk - required_milk
         resources['coffee'] = available_coffee - required_coffee
         return True
-
     if available_water < required_water or available_milk < required_milk or available_coffee < required_coffee:
         return False 
     
@@ -114,7 +116,7 @@ def coffee_machine_MAIN():
         print('Check resource levels!')
         return
 
-    additional_cups = input('Would you like to make any additional cup? Y/N?').lower()
+    additional_cups = input('Would you like to make any additional cup? Y/N').lower()
     if additional_cups == 'y':
         coffee_machine_MAIN()
     if additional_cups == 'n':
